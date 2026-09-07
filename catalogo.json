@@ -935,7 +935,248 @@
  {
   "armazem": "Cais 56",
   "seccao": "Sala",
-  "itens": []
+  "itens": [
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Compal Pêssego 200 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Compal Manga 200 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Compal Pera 200 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Coca-Cola 350 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Coca-Cola Zero 350 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Ice Tea Pêssego 330 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Ice Tea Manga 330 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Ice Tea Limão 330 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "7UP 300 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Sumol Laranja 300 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Sumol Ananás 300 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Fanta Laranja 350 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Fanta Ananás 350 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Guaraná 330 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "7UP 1,5L",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Coca-Cola lata 330 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Coca-Cola Zero lata 330 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Ice Tea Pêssego lata",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Ice Tea Manga lata",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Refrigerantes e Sumos",
+    "produto": "Ice Tea Limão lata",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Água Luso 500 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Água Castelo 250 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Água das Pedras 250 ml",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Frize Limão",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Frize Groselha",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Ginger Ale",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Águas",
+    "produto": "Água Tónica",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Sagres Média",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Sagres Bohemia",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Sagres Radler",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Sagres Preta",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Sagres sem álcool",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Bandida do Pomar",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Cervejas e Sidra",
+    "produto": "Barril de cerveja",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Caiado Branco 375",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Caiado Tinto 375",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Caiado Branco 750",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Caiado Tinto 750",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Caiado Rosé 750",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Casal Garcia 375",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Casal Garcia 750",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Muralhas 375",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Muralhas 750",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Danúbio",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Box Branco 5L",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Box Tinto 5L",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Box Rosé 5L",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Vinhos",
+    "produto": "Barril de vinho",
+    "unidade": "un"
+   }
+  ]
  },
  {
   "armazem": "Moscatel",
