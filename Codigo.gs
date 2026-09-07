@@ -1,16 +1,20 @@
 /**
  * INVENTÁRIO DO GRUPO — porta de entrada das contagens.
- * A app envia para aqui cada contagem fechada e este script escreve-a
- * na folha "INVENTÁRIO — Mestre" (pasta 02 Contagens).
+ * A app (https://groupmultifund.github.io/inventario/) envia para aqui cada
+ * contagem fechada e este script escreve-a na folha "INVENTÁRIO — Mestre",
+ * na pasta 02 Contagens do Drive.
  *
- * Instalação: correr instalar() uma vez, autorizar, e depois
+ * Instalação: correr instalar() uma vez e autorizar. Depois
  * Implementar > Nova implementação > Aplicação Web
  * (Executar como: eu | Quem tem acesso: Qualquer pessoa).
  */
-var XLSX_ID  = '1eMNYpi2nr2RQcceoA-9lpke50MyUzpJ8';   // INVENTARIO - Mestre.xlsx
 var PASTA_ID = '1iyIUHBspvWLrW3EpmIiDgDx8Vz_YE3cY';   // pasta 02 Contagens
 var NOME     = 'INVENTÁRIO — Mestre';
-var CODIGO   = '2530';
+var CODIGO   = 'Sabiocrescimento2026';   // palavra-passe da app
+var CATALOGO = 'https://groupmultifund.github.io/inventario/catalogo.json';
+var AZUL     = '#1f3864';
+var COLS = ['Data contagem','Armazém','Secção','Categoria','Produto','Unidade',
+            'Quantidade','Observações','Contado por','Registado em','ID lançamento'];
 
 function P_(){ return PropertiesService.getScriptProperties(); }
 function J_(o){ return ContentService.createTextOutput(JSON.stringify(o))
@@ -25,18 +29,57 @@ function instalar(){
 function folha_(){
   var id = P_().getProperty('FOLHA_ID');
   if(id){ try{ return SpreadsheetApp.openById(id); }catch(e){} }
-  var r = UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + XLSX_ID + '/copy', {
-    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
-    headers: {Authorization: 'Bearer ' + ScriptApp.getOAuthToken()},
-    payload: JSON.stringify({name: NOME, parents: [PASTA_ID],
-      mimeType: 'application/vnd.google-apps.spreadsheet'})
+  return criar_();
+}
+
+function criar_(){
+  var cat = JSON.parse(UrlFetchApp.fetch(CATALOGO).getContentText());
+  var ss = SpreadsheetApp.create(NOME);
+  DriveApp.getFileById(ss.getId()).moveTo(DriveApp.getFolderById(PASTA_ID));
+
+  var leia = ss.getSheets()[0].setName('Leia-me');
+  var txt = [['INVENTÁRIO — Grupo (folha mestre)'],[''],
+    ['Os gerentes lançam a contagem na app do telemóvel e ela entra aqui sozinha.'],
+    ['Uma folha por armazém e secção: as colunas A a C são a lista oficial de artigos'],
+    ['e cada contagem acrescenta uma coluna nova com a data.'],
+    ['A folha "Lançamentos" tem o histórico linha a linha — é a que serve para análise.'],[''],
+    ['Para acrescentar um artigo permanente, escreva a linha nas colunas A a C da folha do armazém.'],
+    ['Célula vazia = artigo não contado. Zero = contado e não há.'],
+    ['Não escrever à mão nas colunas com data.'],
+    ['Fundo amarelo = artigo acrescentado pelo gerente durante a contagem, ou célula com observação.']];
+  leia.getRange(1,1,txt.length,1).setValues(txt).setFontFamily('Arial');
+  leia.getRange(1,1).setFontSize(15).setFontWeight('bold').setFontColor(AZUL);
+  leia.setColumnWidth(1,640);
+
+  cat.forEach(function(sec){
+    var sh = ss.insertSheet(sec.armazem + ' - ' + sec.seccao);
+    sh.getRange(1,1).setValue('INVENTÁRIO — ' + sec.armazem + ' · ' + sec.seccao)
+      .setFontSize(13).setFontWeight('bold').setFontColor(AZUL);
+    sh.getRange(2,1).setValue('Colunas A-C: lista oficial de artigos. Colunas de data: preenchidas pela app.')
+      .setFontSize(9).setFontStyle('italic').setFontColor('#808080');
+    sh.getRange(4,1,1,3).setValues([['Categoria','Produto','Unidade']])
+      .setBackground(AZUL).setFontColor('#ffffff').setFontWeight('bold').setHorizontalAlignment('center');
+    if(sec.itens.length){
+      sh.getRange(5,1,sec.itens.length,3).setValues(sec.itens.map(function(it){
+        return [it.categoria, it.produto, it.unidade || ''];
+      }));
+    }
+    sh.setColumnWidth(1,190); sh.setColumnWidth(2,260); sh.setColumnWidth(3,70);
+    sh.setFrozenRows(4); sh.setFrozenColumns(3);
   });
-  var novo = JSON.parse(r.getContentText());
-  if(!novo.id) throw new Error('Não deu para criar a folha: ' + r.getContentText());
-  var ss = SpreadsheetApp.openById(novo.id);
-  var lanc = ss.getSheetByName('Lançamentos');
-  if(lanc && String(lanc.getRange(5,11).getValue()) === 'exemplo') lanc.deleteRow(5);
-  P_().setProperty('FOLHA_ID', novo.id);
+
+  var lanc = ss.insertSheet('Lançamentos');
+  lanc.getRange(1,1).setValue('LANÇAMENTOS DE INVENTÁRIO — histórico')
+    .setFontSize(13).setFontWeight('bold').setFontColor(AZUL);
+  lanc.getRange(2,1).setValue('Uma linha por artigo contado. Preenchido pela app.')
+    .setFontSize(9).setFontStyle('italic').setFontColor('#808080');
+  lanc.getRange(4,1,1,COLS.length).setValues([COLS])
+    .setBackground(AZUL).setFontColor('#ffffff').setFontWeight('bold');
+  lanc.setFrozenRows(4);
+  lanc.setColumnWidth(4,180); lanc.setColumnWidth(5,230);
+  lanc.setColumnWidth(8,220); lanc.setColumnWidth(11,240);
+
+  P_().setProperty('FOLHA_ID', ss.getId());
   return ss;
 }
 
@@ -49,6 +92,7 @@ function doPost(e){
   try{
     var d = JSON.parse(e.postData.contents);
     if(String(d.codigo) !== CODIGO) return J_({ok:false, erro:'codigo'});
+    if(d.acao === 'entrar') return J_({ok:true, entrada:true});
     if(!d.linhas || !d.linhas.length) return J_({ok:false, erro:'contagem vazia'});
     var lock = LockService.getScriptLock();
     lock.waitLock(30000);
@@ -71,7 +115,7 @@ function registar_(d){
     return [d.data, d.armazem, d.seccao, l.categoria, l.produto, l.unidade || '',
             qtd_(l), l.observacoes || '', d.contador || '', quando, d.id];
   });
-  lanc.getRange(Math.max(ult+1,5), 1, linhas.length, 11).setValues(linhas);
+  lanc.getRange(Math.max(ult+1,5), 1, linhas.length, COLS.length).setValues(linhas);
 
   var sh = ss.getSheetByName(d.armazem + ' - ' + d.seccao), novos = 0;
   if(sh){
@@ -84,7 +128,7 @@ function registar_(d){
     }
     if(!col){
       col = ultC + 1;
-      sh.getRange(4,col).setNumberFormat('@').setValue(d.data).setBackground('#1f3864')
+      sh.getRange(4,col).setNumberFormat('@').setValue(d.data).setBackground(AZUL)
         .setFontColor('#ffffff').setFontWeight('bold').setHorizontalAlignment('center');
       sh.setColumnWidth(col,95);
     }

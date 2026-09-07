@@ -1104,7 +1104,7 @@
    {
     "categoria": "Cervejas e Sidra",
     "produto": "Barril de cerveja",
-    "unidade": "un"
+    "unidade": "barris"
    },
    {
     "categoria": "Vinhos",
@@ -1159,22 +1159,22 @@
    {
     "categoria": "Vinhos",
     "produto": "Box Branco 5L",
-    "unidade": "L"
+    "unidade": "caixas"
    },
    {
     "categoria": "Vinhos",
     "produto": "Box Tinto 5L",
-    "unidade": "L"
+    "unidade": "caixas"
    },
    {
     "categoria": "Vinhos",
     "produto": "Box Rosé 5L",
-    "unidade": "L"
+    "unidade": "caixas"
    },
    {
     "categoria": "Vinhos",
     "produto": "Barril de vinho",
-    "unidade": "un"
+    "unidade": "barris"
    }
   ]
  },
