@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4E1129">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="Contagem de inventário do grupo — Adega do Leo, Cais 56 e Moscatel.">
+<title>Inventário do Grupo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --vinho:#6B1F3A; --vinho-forte:#4E1129; --moscatel:#B8802F; --moscatel-claro:#E8D2A8;
+  --chao:#F7F4F1; --superficie:#FFFFFF; --superficie-2:#F1ECE8;
+  --tinta:#241A1D; --tinta-2:#5C4E51; --tinta-3:#8A7B7E;
+  --linha:#E2D9D5; --linha-forte:#CFC2BD;
+  --ok:#2E6F52; --ok-fundo:#E4F0EA; --falta:#9A6516; --falta-fundo:#FBEFD9;
+  --sombra:0 1px 2px rgba(36,26,29,.06), 0 8px 24px -16px rgba(36,26,29,.28);
+  --topo-fundo:#4E1129; --topo-tinta:#FFF1F5; --bt-tinta:#FFFFFF;
+  --r:12px; --max:720px;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --disp:"Bricolage Grotesque","IBM Plex Sans",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --vinho:#D4879F; --vinho-forte:#EBB0C1; --moscatel:#D9A85C; --moscatel-claro:#7A5A28;
+  --chao:#171214; --superficie:#211A1D; --superficie-2:#2B2226;
+  --tinta:#F3EAE7; --tinta-2:#C4B4B7; --tinta-3:#938286;
+  --linha:#372C31; --linha-forte:#4A3B40;
+  --ok:#7FC5A2; --ok-fundo:#1E3A2C; --falta:#E5B96B; --falta-fundo:#3A2C15;
+  --topo-fundo:#2E1017; --topo-tinta:#F6E3E8; --bt-tinta:#2B1119;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --vinho:#D4879F; --vinho-forte:#EBB0C1; --moscatel:#D9A85C; --moscatel-claro:#7A5A28;
+  --chao:#171214; --superficie:#211A1D; --superficie-2:#2B2226;
+  --tinta:#F3EAE7; --tinta-2:#C4B4B7; --tinta-3:#938286;
+  --linha:#372C31; --linha-forte:#4A3B40;
+  --ok:#7FC5A2; --ok-fundo:#1E3A2C; --falta:#E5B96B; --falta-fundo:#3A2C15;
+  --topo-fundo:#2E1017; --topo-tinta:#F6E3E8; --bt-tinta:#2B1119;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--chao);color:var(--tinta);font-family:var(--sans);
+  font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px 140px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--vinho);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- topo ---------- */
+.topo{position:sticky;top:0;z-index:30;background:var(--topo-fundo);color:var(--topo-tinta);
+  box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.topo-in{max-width:var(--max);margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.marca{font-family:var(--disp);font-weight:700;font-size:17px;letter-spacing:-.01em;margin:0}
+.marca small{display:block;font-family:var(--sans);font-weight:400;font-size:11.5px;
+  letter-spacing:.08em;text-transform:uppercase;opacity:.72;margin-top:1px}
+.voltar{background:rgba(255,255,255,.12);border:0;color:inherit;width:36px;height:36px;
+  border-radius:9px;display:grid;place-items:center;flex:none;font-size:18px;line-height:1}
+.voltar:hover{background:rgba(255,255,255,.2)}
+.progresso{margin-left:auto;text-align:right;font-family:var(--mono);font-size:13px;font-weight:600}
+.progresso span{display:block;font-family:var(--sans);font-size:10.5px;font-weight:400;
+  letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.barra{height:3px;background:rgba(255,255,255,.18)}
+.barra i{display:block;height:100%;background:var(--moscatel-claro);width:0;transition:width .25s}
+
+/* ---------- ecrã inicial ---------- */
+.intro{padding:26px 0 8px}
+.intro h2{font-family:var(--disp);font-weight:700;font-size:26px;line-height:1.15;
+  letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+.intro p{margin:0 0 22px;color:var(--tinta-2);font-size:14.5px;max-width:52ch}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+label.campo{display:block}
+label.campo span{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--tinta-3);margin-bottom:5px;font-weight:500}
+input[type=text],input[type=date],input[type=search]{width:100%;padding:11px 12px;border:1px solid var(--linha-forte);
+  border-radius:10px;background:var(--superficie);color:var(--tinta);font:inherit;font-size:15.5px}
+input::placeholder{color:var(--tinta-3)}
+.casa{margin-bottom:14px}
+.casa h3{font-family:var(--disp);font-size:13px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--vinho);margin:0 0 8px;display:flex;align-items:center;gap:8px}
+.casa h3::after{content:"";flex:1;height:1px;background:var(--linha)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sec{display:flex;flex-direction:column;gap:3px;text-align:left;background:var(--superficie);
+  border:1px solid var(--linha);border-radius:var(--r);padding:14px;box-shadow:var(--sombra);
+  transition:border-color .15s,transform .1s}
+.sec:hover{border-color:var(--vinho)}
+.sec:active{transform:scale(.99)}
+.sec b{font-family:var(--disp);font-size:16.5px;font-weight:700;letter-spacing:-.01em}
+.sec em{font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--tinta-3)}
+.sec .ult{font-size:11.5px;color:var(--tinta-2)}
+.sec.vazia b{color:var(--tinta-3)}
+.aviso{background:var(--falta-fundo);color:var(--falta);border-radius:10px;padding:10px 12px;
+  font-size:13px;margin:0 0 18px;border:1px solid rgba(154,101,22,.25)}
+
+/* ---------- contagem ---------- */
+.ferramentas{position:sticky;top:57px;z-index:20;background:var(--chao);padding:12px 0 10px;
+  display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--linha)}
+.ferramentas input{flex:1}
+.filtro{border:1px solid var(--linha-forte);background:var(--superficie);border-radius:999px;
+  padding:9px 14px;font-size:13.5px;font-weight:500;white-space:nowrap}
+.filtro[aria-pressed=true]{background:var(--vinho);color:var(--bt-tinta);border-color:var(--vinho)}
+.grupo{margin-top:22px}
+.grupo>h4{font-family:var(--disp);font-size:12.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tinta-2);margin:0 0 8px;display:flex;gap:8px;align-items:baseline}
+.grupo>h4 i{font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--tinta-3);margin-left:auto}
+.lista{background:var(--superficie);border:1px solid var(--linha);border-radius:var(--r);overflow:hidden}
+.linha{display:grid;grid-template-columns:1fr 104px 34px;gap:10px;align-items:center;
+  padding:9px 10px 9px 13px;border-top:1px solid var(--linha)}
+.linha:first-child{border-top:0}
+.linha.feito{background:linear-gradient(90deg,var(--ok-fundo),transparent 60%)}
+.nome{min-width:0}
+.nome b{display:block;font-weight:500;font-size:14.8px;line-height:1.25;word-break:break-word}
+.nome span{font-family:var(--mono);font-size:11px;color:var(--tinta-3);text-transform:none}
+.nome .obs{display:block;font-size:11.5px;color:var(--moscatel);margin-top:2px}
+.qtd{width:100%;padding:9px 8px;text-align:right;border:1px solid var(--linha-forte);border-radius:9px;
+  background:var(--superficie);color:var(--tinta);font-family:var(--mono);font-size:16px;font-weight:600;
+  font-variant-numeric:tabular-nums}
+.qtd:focus{border-color:var(--vinho);background:var(--superficie)}
+.linha.feito .qtd{border-color:var(--ok);color:var(--ok)}
+.soma{display:block;font-family:var(--mono);font-size:10.5px;color:var(--ok);text-align:right;margin-top:2px}
+.nota{border:0;background:transparent;color:var(--tinta-3);width:34px;height:34px;border-radius:9px;
+  display:grid;place-items:center;font-size:15px}
+.nota:hover{background:var(--superficie-2);color:var(--vinho)}
+.nota.tem{color:var(--moscatel)}
+.novo{width:100%;margin-top:10px;padding:12px;border:1px dashed var(--linha-forte);border-radius:var(--r);
+  background:transparent;color:var(--vinho);font-weight:500;font-size:14px}
+.novo:hover{background:var(--superficie);border-color:var(--vinho)}
+.vazio{padding:40px 16px;text-align:center;color:var(--tinta-3);font-size:14px}
+
+/* ---------- rodapé ---------- */
+.rodape{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--superficie);
+  border-top:1px solid var(--linha);padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  box-shadow:0 -8px 24px -18px rgba(36,26,29,.5)}
+.rodape-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px;align-items:center}
+.estado{font-size:11.5px;color:var(--tinta-3);flex:1;min-width:0}
+.estado b{display:block;color:var(--tinta-2);font-weight:500;font-size:12.5px}
+.bt{border:0;border-radius:11px;padding:13px 20px;font-weight:600;font-size:15px;background:var(--vinho);color:var(--bt-tinta)}
+.bt:hover{background:var(--vinho-forte)}
+.bt.sec2{background:var(--superficie-2);color:var(--tinta)}
+.bt[disabled]{opacity:.45;cursor:not-allowed}
+
+/* ---------- modal ---------- */
+.veu{position:fixed;inset:0;background:rgba(36,26,29,.55);z-index:50;display:grid;place-items:end center;padding:0}
+.folha{background:var(--superficie);width:100%;max-width:var(--max);border-radius:16px 16px 0 0;
+  padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}
+.folha h3{font-family:var(--disp);font-size:19px;margin:0 0 4px;letter-spacing:-.01em}
+.folha p{margin:0 0 16px;color:var(--tinta-2);font-size:14px}
+.folha .acoes{display:flex;gap:10px;margin-top:18px}
+.folha .acoes .bt{flex:1;text-align:center}
+.resumo{border:1px solid var(--linha);border-radius:10px;overflow:hidden;margin-top:6px}
+.resumo div{display:flex;justify-content:space-between;padding:9px 12px;border-top:1px solid var(--linha);font-size:14px}
+.resumo div:first-child{border-top:0}
+.resumo b{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.enviadas{margin-top:26px}
+.enviadas h4{font-family:var(--disp);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tinta-2);margin:0 0 8px}
+.env{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;background:var(--superficie);
+  border:1px solid var(--linha);border-radius:10px;margin-bottom:6px;font-size:13.5px}
+.env span{color:var(--tinta-3);font-family:var(--mono);font-size:12px}
+.oculto{display:none!important}
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="topo-in">
+    <button class="voltar oculto" id="btVoltar" aria-label="Voltar">&#8592;</button>
+    <h1 class="marca" id="titulo">Inventário do Grupo<small id="subtitulo">Adega do Leo · Cais 56 · Moscatel</small></h1>
+    <div class="progresso oculto" id="prog"><b id="progNum">0/0</b><span>contados</span></div>
+  </div>
+  <div class="barra"><i id="barra"></i></div>
+</header>
+
+<main class="wrap">
+  <!-- ECRÃ 1 -->
+  <section id="ecraInicio">
+    <div class="intro">
+      <h2>Contagem de armazém</h2>
+      <p>Escolha o armazém e a secção. A contagem grava-se sozinha enquanto conta e entra na folha de inventário do Drive quando a fechar.</p>
+      <div id="avisoOffline" class="aviso oculto"></div>
+      <div class="campos">
+        <label class="campo"><span>Data da contagem</span><input type="date" id="inData"></label>
+        <label class="campo"><span>Quem conta</span><input type="text" id="inContador" placeholder="Nome do gerente" autocomplete="name"></label>
+      </div>
+    </div>
+    <div id="casas"></div>
+    <div class="enviadas oculto" id="blocoEnviadas">
+      <h4>Últimas contagens fechadas</h4>
+      <div id="listaEnviadas"></div>
+    </div>
+  </section>
+
+  <!-- ECRÃ 2 -->
+  <section id="ecraContagem" class="oculto">
+    <div class="ferramentas">
+      <input type="search" id="busca" placeholder="Procurar artigo…" autocomplete="off">
+      <button class="filtro" id="btFiltro" aria-pressed="false">Por contar</button>
+    </div>
+    <div id="listas"></div>
+    <button class="novo" id="btNovo">+ Artigo que não está na lista</button>
+  </section>
+</main>
+
+<div class="rodape oculto" id="rodape">
+  <div class="rodape-in">
+    <div class="estado"><b id="estadoTit">Rascunho</b><span id="estadoSub">nada por gravar</span></div>
+    <button class="bt sec2" id="btCopiar">Copiar</button>
+    <button class="bt" id="btFechar">Fechar contagem</button>
+  </div>
+</div>
+
+<div class="veu oculto" id="veu"><div class="folha" id="folha"></div></div>
+
+<script>
+const CATALOGO = [{"armazem":"Adega do Leo","seccao":"Cozinha","itens":[{"categoria":"Economato / Consumíveis","produto":"Toalhas mãos","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Lixívia","unidade":"L"},{"categoria":"Economato / Consumíveis","produto":"Detergente manual loiça","unidade":"L"},{"categoria":"Economato / Consumíveis","produto":"Toalhas mesa","unidade":"packs"},{"categoria":"Economato / Consumíveis","produto":"Sacos lixo 120 litros","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Sacos lixo 50 litros","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Take away","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Guardanapos","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Luvas M","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Chouriço","unidade":"packs"},{"categoria":"Economato / Consumíveis","produto":"Bacon","unidade":"peças"},{"categoria":"Economato / Consumíveis","produto":"Papel alumínio","unidade":"rolos"},{"categoria":"Economato / Consumíveis","produto":"Película aderente","unidade":"rolos"},{"categoria":"Economato / Consumíveis","produto":"Piri-piri mesa","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Bife peru","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Bife vaca","unidade":"un"},{"categoria":"Economato / Consumíveis","produto":"Bifana","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Arroz","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Feijão cru","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Feijão lata","unidade":"latas"},{"categoria":"Mercearia / Frescos","produto":"Açúcar amarelo","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Maionese saché","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Ketchup saché","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Orégãos","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Canela em pau","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Polpa de tomate","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Azeite mesa","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Vinagre mesa","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Colorau","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Knorr","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Leite condensado","unidade":"latas"},{"categoria":"Mercearia / Frescos","produto":"Azeite ?? x 3 L","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Sal mesa","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Alface","unidade":"pés"},{"categoria":"Mercearia / Frescos","produto":"Tomate","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Cebola","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Azeitona","unidade":"baldes"},{"categoria":"Mercearia / Frescos","produto":"Óleo girassol (30 x 5 L)","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Leite UHT","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Ovos","unidade":"dz"},{"categoria":"Mercearia / Frescos","produto":"Pães","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Margarina","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Sal saché","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Bravo esfregão","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Sal grosso","unidade":"pacotes"},{"categoria":"Mercearia / Frescos","produto":"Paté","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Manteiga saché","unidade":"un"},{"categoria":"Limpeza","produto":"Esfregão bravo","unidade":"dz"},{"categoria":"Limpeza","produto":"Água 6 L","unidade":"un"},{"categoria":"Limpeza","produto":"Vinagre","unidade":"L"},{"categoria":"Limpeza","produto":"Puré de batata","unidade":"kg"},{"categoria":"Limpeza","produto":"Lavanda","unidade":"L"},{"categoria":"Limpeza","produto":"Picante (16 x 1,130 L)","unidade":"un"},{"categoria":"Limpeza","produto":"Detergente máquina","unidade":"L"},{"categoria":"Limpeza","produto":"Rolo cozinha","unidade":"un"},{"categoria":"Limpeza","produto":"Mistolin","unidade":"L"},{"categoria":"Limpeza","produto":"Papel higiénico","unidade":"un"},{"categoria":"Limpeza","produto":"Secante máquina","unidade":"un"}]},{"armazem":"Adega do Leo","seccao":"Sala","itens":[{"categoria":"Bebidas espirituosas","produto":"São Domingos","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Licor Beirão","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Amêndoa Amarga","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Moscatel","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Jameson","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"J&B","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Cutty Sark","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Macieira","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"CRF","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Martini dose individual","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Licor Baileys","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Brandy Mel","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Ginja","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Groselha","unidade":"un"},{"categoria":"Bebidas espirituosas","produto":"Vinho do Porto","unidade":"un"},{"categoria":"Café","produto":"Café","unidade":"un"},{"categoria":"Café","produto":"Descafeinado","unidade":"un"},{"categoria":"Café","produto":"Adoçante","unidade":"un"},{"categoria":"Vinho box","produto":"Vinho Box Tinto","unidade":"un"},{"categoria":"Vinho box","produto":"Vinho Box Branco","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Catarina Tinto","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Quatro Ventos Tinto","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Dom Martinho Branco","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Quinta do Cosmo Branco","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Quinta do Cosmo/Azeitão Branco","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Serras de Azeitão Branco","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Catarina Branco","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Catarina Rosé","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Serras de Azeitão Tinto","unidade":"un"},{"categoria":"Vinhos de garrafa","produto":"Casal Mendes","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Seven Up","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Sumol laranja","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Sumol ananás","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Águas 0,5 litro","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Águas garrafão","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Guaraná 1,5 L","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Guaraná lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Pepsi lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Pepsi Max lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Láctea pêssego lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Láctea manga lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Láctea limão lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Seven Up lata","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Águas 0,5 litro plástico","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Lata Sumol ananás","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Lata Sumol laranja","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Água das Pedras","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Pedras limão","unidade":"un"},{"categoria":"Refrigerantes e águas","produto":"Gasosa 1,5 L","unidade":"un"},{"categoria":"Néctares","produto":"Néctar laranja","unidade":"un"},{"categoria":"Néctares","produto":"Néctar pêssego","unidade":"un"},{"categoria":"Néctares","produto":"Néctar frutos vermelhos","unidade":"un"},{"categoria":"Néctares","produto":"Néctar pêra","unidade":"un"},{"categoria":"Néctares","produto":"Néctar ananás","unidade":"un"},{"categoria":"Néctares","produto":"Néctar manga-laranja","unidade":"un"},{"categoria":"Frize","produto":"Frize limão","unidade":"un"},{"categoria":"Frize","produto":"Frize açaí","unidade":"un"},{"categoria":"Frize","produto":"Frize normal","unidade":"un"},{"categoria":"Frize","produto":"Frize frutos vermelhos","unidade":"un"},{"categoria":"Cervejas","produto":"Sagres","unidade":"un"},{"categoria":"Cervejas","produto":"Sagres Preta","unidade":"un"},{"categoria":"Cervejas","produto":"Sagres s/ álcool","unidade":"un"},{"categoria":"Cervejas","produto":"Sagres Preta sem álcool","unidade":"un"},{"categoria":"Cervejas","produto":"Sagres Bohemia","unidade":"un"},{"categoria":"Barris e gás","produto":"Barril de Imperial","unidade":"un"},{"categoria":"Barris e gás","produto":"Barril de vinho","unidade":"un"},{"categoria":"Barris e gás","produto":"Botija de CO2","unidade":"un"},{"categoria":"Barris e gás","produto":"Somersby","unidade":"un"}]},{"armazem":"Cais 56","seccao":"Cozinha","itens":[]},{"armazem":"Cais 56","seccao":"Sala","itens":[]},{"armazem":"Moscatel","seccao":"Cozinha","itens":[{"categoria":"Carnes","produto":"Entrecosto","unidade":"kg"},{"categoria":"Carnes","produto":"Fraldinha","unidade":"kg"},{"categoria":"Carnes","produto":"Presunto baguete","unidade":"g"},{"categoria":"Carnes","produto":"Enchidos tábua","unidade":"kg"},{"categoria":"Carnes","produto":"Bacon fumado","unidade":"kg"},{"categoria":"Carnes","produto":"Farinheira","unidade":"kg"},{"categoria":"Carnes","produto":"Morcela","unidade":"kg"},{"categoria":"Carnes","produto":"Chouriço de carne","unidade":"kg"},{"categoria":"Carnes","produto":"Vazia","unidade":"kg"},{"categoria":"Carnes","produto":"Lombo bovino","unidade":"kg"},{"categoria":"Carnes","produto":"Vitela","unidade":"kg"},{"categoria":"Carnes","produto":"Chispe de porco","unidade":"kg"},{"categoria":"Carnes","produto":"Costeleta de borrego","unidade":"kg"},{"categoria":"Carnes","produto":"Porco preto","unidade":"kg"},{"categoria":"Carnes","produto":"Bochecha de porco","unidade":"kg"},{"categoria":"Carnes","produto":"Cupim","unidade":"g"},{"categoria":"Carnes","produto":"Barriga de porco","unidade":"un"},{"categoria":"Carnes","produto":"Carne para demi-glace","unidade":"kg"},{"categoria":"Carnes","produto":"Jus de porco","unidade":"L"},{"categoria":"Peixes / Mariscos","produto":"Bacalhau","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Miolo de camarão","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Lulas limpas","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Camarão 10/20","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Filé de peixe","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Salmão","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Atum","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Choco","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Bolinha de camarão","unidade":"un"},{"categoria":"Peixes / Mariscos","produto":"Bolinhas de lulas","unidade":"un"},{"categoria":"Peixes / Mariscos","produto":"Mexilhões","unidade":"un"},{"categoria":"Peixes / Mariscos","produto":"Polvo","unidade":"kg"},{"categoria":"Peixes / Mariscos","produto":"Caldo de polvo","unidade":"L"},{"categoria":"Aves","produto":"Peito de peru","unidade":"kg"},{"categoria":"Aves","produto":"Pato assado","unidade":"kg"},{"categoria":"Aves","produto":"Magret","unidade":"un"},{"categoria":"Aves","produto":"Caldo de pato","unidade":"L"},{"categoria":"Aves","produto":"Frango desfiado","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Tagliatele","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Massa esparguete","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Maizena","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Arroz agulha","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Arroz carolino","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Arroz basmati","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Leite","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Natas","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Vinho tinto","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Vinho branco","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Batata brava","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Sal grosso","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Grissini","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Maionese","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Bolacha salgada","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Ketchup","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Azeitonas couvert","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Sal fino","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Mostarda","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Polpa de tomate","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Molho inglês","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Picles","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Vinagre de vinho branco","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Molho piri-piri","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Azeite","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Molho Tabasco","unidade":"ml"},{"categoria":"Mercearia / Frescos","produto":"Vinagre balsâmico","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Molho de soja","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Vinagre de arroz","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Arroz sushi","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Folha Nori","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Mel","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Tomate em pedaços","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Paprika doce","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Cebola frita","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Noz-moscada","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Massa lasanha","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Amêndoa laminada","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Caneloni","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Massa cotovelo","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Gelatina incolor","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Cardamomo","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Fermento de pão","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Orégãos","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Farinha de trigo","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Cebola amarela","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Batata para fritar","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Batata a murro","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Cebola roxa","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Lima","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Maçã vermelha","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Manga","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Limão","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Laranja","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Manteiga","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Massa filo","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Queijo Ilha","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Queijo amanteigado","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Queijo pimento","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Creme de queijo","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Chocolate 70%","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Banha de porco","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Manteiga para folhear","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Salsa","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Hortelã","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Salada","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Pimento vermelho","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Pimento verde","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Alecrim","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Tomilho","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Alho sem pele","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Alho francês","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Portobello","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Cogumelo Paris","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Gengibre","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Pepino","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Pimento padrão","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Cenoura","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Beringela","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Curgete","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Couve-flor","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Açúcar branco","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Farinha de milho","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Sêmola de milho","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Açúcar amarelo","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Whiskey para cozinha","unidade":"garrafa"},{"categoria":"Mercearia / Frescos","produto":"Ovos","unidade":"caixa"},{"categoria":"Mercearia / Frescos","produto":"Óleo vegetal","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Purê de castanha","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Purê de couve-flor","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Geleia de abóbora","unidade":"g"},{"categoria":"Mercearia / Frescos","produto":"Molho de tomate","unidade":"L"},{"categoria":"Mercearia / Frescos","produto":"Aspargos","unidade":"un"},{"categoria":"Mercearia / Frescos","produto":"Carvão","unidade":"kg"},{"categoria":"Mercearia / Frescos","produto":"Papel vegetal","unidade":"rolos"},{"categoria":"Mercearia / Frescos","produto":"Papel alumínio","unidade":"rolos"},{"categoria":"Mercearia / Frescos","produto":"Película","unidade":"rolos"}]},{"armazem":"Moscatel","seccao":"Sala","itens":[{"categoria":"Cafetaria","produto":"Café","unidade":"kg"},{"categoria":"Cafetaria","produto":"Chá camomila","unidade":"un"},{"categoria":"Cafetaria","produto":"Chá cidreira","unidade":"un"},{"categoria":"Cafetaria","produto":"Chá menta","unidade":"un"},{"categoria":"Cafetaria","produto":"Chá preto","unidade":"un"},{"categoria":"Cafetaria","produto":"Chá tilia","unidade":"un"},{"categoria":"Cafetaria","produto":"Chá verde","unidade":"un"},{"categoria":"Cafetaria","produto":"Chocolate quente nestle","unidade":"un"},{"categoria":"Cafetaria","produto":"Descafeinado","unidade":"un"},{"categoria":"Águas","produto":"Água castelo 25cl","unidade":"un"},{"categoria":"Águas","produto":"Água castelo 75cl","unidade":"un"},{"categoria":"Águas","produto":"Água das pedras 25cl","unidade":"un"},{"categoria":"Águas","produto":"Água das pedras limão 25cl","unidade":"un"},{"categoria":"Águas","produto":"Água luso vidro 500 ml","unidade":"un"},{"categoria":"Águas","produto":"Água luso plástico 500ml","unidade":"un"},{"categoria":"Águas","produto":"Água tónica 1l","unidade":"un"},{"categoria":"Águas","produto":"Água tónica 20 cl","unidade":"un"},{"categoria":"Águas","produto":"Frize ananás","unidade":"un"},{"categoria":"Águas","produto":"Frize groselha","unidade":"un"},{"categoria":"Águas","produto":"Frize laranja","unidade":"un"},{"categoria":"Águas","produto":"Frize lima,pepino,gengibre","unidade":"un"},{"categoria":"Águas","produto":"Frize limão","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"7 up lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"7 up vidro","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Cola original lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Cola original vidro","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Cola zero lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Cola zero vidro","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Compal laranja","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Compal manga","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Compal perâ","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Compal pessego","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Fanta ananás lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Fanta ananás vidro","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Fanta laranja lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Fanta laranja vidro","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Ginger ale","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Guaraná lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Leite ucal","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Lipton limão","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Lipton manga","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Lipton pêssego","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Sprite 1l","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Sumol ananás lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Sumol ananás vidro","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Sumol eclipse","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Sumol laranja lata","unidade":"un"},{"categoria":"Refrigerantes / Sumos","produto":"Sumol laranja vidro","unidade":"un"},{"categoria":"Cerveja / Cidra","produto":"Barril 50l","unidade":"un"},{"categoria":"Cerveja / Cidra","produto":"Barril bandida 20l","unidade":"un"},{"categoria":"Cerveja / Cidra","produto":"Beer drive","unidade":"lt"},{"categoria":"Cerveja / Cidra","produto":"Sagres 0,0","unidade":"un"},{"categoria":"Cerveja / Cidra","produto":"Sagres média","unidade":"un"},{"categoria":"Cerveja / Cidra","produto":"Sagres preta","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Balvenie","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Black label","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Bushmills","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Cardhu","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Famous grouse","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Golden lock","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Jack daniel´s","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Jameson","unidade":"un"},{"categoria":"Destilados - Whiskey","produto":"Red label","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Aldeia velha","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Aliança velha","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Antiqua","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Crf","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Fim de século","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Xo 10 anos","unidade":"un"},{"categoria":"Destilados - Aguardentes","produto":"Xo 40 anos","unidade":"un"},{"categoria":"Destilados - Gin","produto":"Bulldog","unidade":"un"},{"categoria":"Destilados - Gin","produto":"Gin mare","unidade":"un"},{"categoria":"Destilados - Gin","produto":"Hendrick`s","unidade":"un"},{"categoria":"Destilados - Gin","produto":"Nórdes","unidade":"un"},{"categoria":"Destilados - Gin","produto":"Tanqueray","unidade":"un"},{"categoria":"Destilados - Gin","produto":"Tanqueray 0,0","unidade":"un"},{"categoria":"Destilados - Outros","produto":"Cachaça 51","unidade":"un"},{"categoria":"Destilados - Outros","produto":"Rum bacardi","unidade":"un"},{"categoria":"Destilados - Outros","produto":"Tequila sombrero negro","unidade":"un"},{"categoria":"Destilados - Outros","produto":"Tequila xarão","unidade":"un"},{"categoria":"Destilados - Outros","produto":"Vodka eristoff black","unidade":"un"},{"categoria":"Destilados - Outros","produto":"Vodka rodanov","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Amêndoa amarga","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Aperol","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Baileys","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Beirão","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Blue curação","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Bols cassis","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Campari","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Ginja abergaria","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Groselha","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Licor de café tia maria","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Martini bianco","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Martini extra dry","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Martini rosso","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Porto crasto vintage","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Porto croft","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Porto taylor`s 10 anos","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Ricard","unidade":"un"},{"categoria":"Licores / Aperitivos","produto":"Triple sec","unidade":"un"},{"categoria":"Moscatel","produto":"Alambre d.o","unidade":"un"},{"categoria":"Moscatel","produto":"Alambre roxo","unidade":"un"},{"categoria":"Moscatel","produto":"Bacalhôa 10 anos superior","unidade":"un"},{"categoria":"Moscatel","produto":"Bacalhôa 20 anos superior","unidade":"un"},{"categoria":"Moscatel","produto":"Bacalhôa d.o","unidade":"un"},{"categoria":"Moscatel","produto":"Bacalhôa roxo 10 anos","unidade":"un"},{"categoria":"Moscatel","produto":"Bacalhôa roxo 5 anos","unidade":"un"},{"categoria":"Moscatel","produto":"Hóracio simões 10 anos superior","unidade":"un"},{"categoria":"Moscatel","produto":"Hóracio simões castelão","unidade":"un"},{"categoria":"Moscatel","produto":"Hóracio simões excellent","unidade":"un"},{"categoria":"Moscatel","produto":"Hóracio simões roxo","unidade":"un"},{"categoria":"Moscatel","produto":"Vcl 30 anos","unidade":"un"},{"categoria":"Moscatel","produto":"Vcl d.o","unidade":"un"},{"categoria":"Moscatel","produto":"Vcl roxo","unidade":"un"},{"categoria":"Salgados","produto":"Coxinha galinha","unidade":"un"},{"categoria":"Salgados","produto":"Croquete carne","unidade":"un"},{"categoria":"Salgados","produto":"Empada galinha","unidade":"un"},{"categoria":"Salgados","produto":"Enroladinho salsicha","unidade":"un"},{"categoria":"Salgados","produto":"Esfirra carne","unidade":"un"},{"categoria":"Salgados","produto":"Pastel bacalhau","unidade":"un"},{"categoria":"Salgados","produto":"Rissol camarão","unidade":"un"},{"categoria":"Charcutaria / Outros","produto":"Atum lata 85 gr","unidade":"un"},{"categoria":"Charcutaria / Outros","produto":"Fiambre corrente fatias","unidade":"kg"},{"categoria":"Charcutaria / Outros","produto":"Manteiga com sal","unidade":"kg"},{"categoria":"Charcutaria / Outros","produto":"Mozzarella 125 gr","unidade":"un"},{"categoria":"Charcutaria / Outros","produto":"Presunto do fundão fatiado","unidade":"kg"},{"categoria":"Charcutaria / Outros","produto":"Pressunto porco preto","unidade":"kg"},{"categoria":"Charcutaria / Outros","produto":"Queijo edam","unidade":"kg"},{"categoria":"Charcutaria / Outros","produto":"Queijo flôr da serra","unidade":"un"},{"categoria":"Vinhos - Espumante","produto":"Aliança baga rosé","unidade":"un"},{"categoria":"Vinhos - Espumante","produto":"Aliança grande reserva pinot noir","unidade":"un"},{"categoria":"Vinhos - Espumante","produto":"Danúbio","unidade":"un"},{"categoria":"Vinhos - Espumante","produto":"Murganheira reserva","unidade":"un"},{"categoria":"Vinhos - Espumante","produto":"Murganheira velha reserva","unidade":"un"},{"categoria":"Vinhos - Espumante","produto":"Murganheira vintage","unidade":"un"},{"categoria":"Vinhos - Champanhe","produto":"Laurent perrier la cuvéé","unidade":"un"},{"categoria":"Vinhos - Champanhe","produto":"Moet chandon","unidade":"un"},{"categoria":"Vinhos - Verde","produto":"Aveleda(loureiro,alvarinho)","unidade":"un"},{"categoria":"Vinhos - Verde","produto":"Palácio brejoeira","unidade":"un"},{"categoria":"Vinhos - Verde","produto":"Soalheiro(alvarinho)","unidade":"un"},{"categoria":"Vinhos - Rosé","produto":"Carlos reynolds","unidade":"un"},{"categoria":"Vinhos - Rosé","produto":"Cartuxa","unidade":"un"},{"categoria":"Vinhos - Rosé","produto":"Catarina","unidade":"un"},{"categoria":"Vinhos - Rosé","produto":"Crasto","unidade":"un"},{"categoria":"Vinhos - Rosé","produto":"Serras de azeitão","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Carlos reynolds","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Cartuxa","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Catarina","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Crasto","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Crasto superior","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Dom martinho","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Ermelinda","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Ermelinda sauvignon blanc verdelho","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Esporão reserva","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Paço do conde","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Paço do conde reserva","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Pêra manca","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Quinta carmo","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Quinta carmo reserva","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Quinta da bacalhôa","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Scala coeli","unidade":"un"},{"categoria":"Vinhos - Branco","produto":"Serras azeitão","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Callabriga","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Cartuxa","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Cartuxa reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Catarina","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Crasto","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Crasto reserva vilhas velhas","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Crasto superior","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Dom martinho","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Ermelinda","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Ermelinda reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Esporão reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Gloria reynolds grande reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Julian reynolds grande reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Julian reynolds reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Leo d´honor","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Paço do conde","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Paço do conde reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Palácio da bacalhôa","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Papa figos","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Perâ manca","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Quatro ventos","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Quinta carmo","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Quinta carmo reserva","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Quinta da bacalhôa","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Quinta da mimosa","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Serras de azeitão","unidade":"un"},{"categoria":"Vinhos - Tinto","produto":"Vale pradinhos","unidade":"un"}]}];
+</script>
+<script>
+/* ------------------------------------------------------------------
+   Inventário do Grupo — app de contagem
+   Envia as contagens fechadas para a Folha de Cálculo do Drive
+   através do Apps Script publicado em CONFIG.url
+------------------------------------------------------------------ */
+const CONFIG = {
+  url: 'https://script.google.com/macros/s/AKfycbwTu3M0P3WrlEE2zOZiTZlmYoaRywuBJJjmE2Py8cO4vOk9lnZD2XrlW6ZBp0NsZ3Ud7A/exec',
+  codigo: '2530'                // código que o gerente escreve uma vez
+};
+
+const $ = s => document.querySelector(s);
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const hoje = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+const chave = it => it.categoria + '|' + it.produto;
+const ler = (k, alt) => { try{ const v = localStorage.getItem(k); return v === null ? alt : JSON.parse(v); }catch(e){ return alt; } };
+const guardar = (k, v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
+
+let secAtual = null, extras = [], valores = {}, filtro = false, busca = '', gravarTimer = null;
+let porEnviar = ler('inv.fila', []);      // contagens fechadas que ainda não chegaram ao Drive
+let historico = ler('inv.historico', []); // últimas contagens enviadas com sucesso
+
+/* ---------- parcelas: "10+12" -> 22 ---------- */
+function soma(txt){
+  if(txt === null || txt === undefined) return null;
+  const t = String(txt).trim();
+  if(!t) return null;
+  const partes = t.replace(/,/g,'.').split('+').map(p => p.trim()).filter(Boolean);
+  let tot = 0;
+  for(const p of partes){
+    if(!/^\d*\.?\d+$/.test(p)) return NaN;
+    tot += parseFloat(p);
+  }
+  return Math.round(tot * 1000) / 1000;
+}
+const temParcelas = t => String(t||'').includes('+');
+
+/* ---------- arranque ---------- */
+$('#inData').value = hoje();
+$('#inContador').value = ler('inv.contador', '');
+$('#inContador').addEventListener('input', e => guardar('inv.contador', e.target.value));
+desenhaCasas();
+desenhaHistorico();
+if(porEnviar.length) enviaFila();
+
+/* ---------- ecrã 1 ---------- */
+function desenhaCasas(){
+  const casas = [];
+  CATALOGO.forEach(s => { if(!casas.includes(s.armazem)) casas.push(s.armazem); });
+  const ultimas = {};
+  historico.forEach(c => { const k = slug(c.armazem)+'__'+slug(c.seccao); if(!ultimas[k]) ultimas[k] = c; });
+  $('#casas').innerHTML = casas.map(c => `
+    <div class="casa">
+      <h3>${c}</h3>
+      <div class="duo">
+        ${CATALOGO.filter(s => s.armazem === c).map(s => {
+          const k = slug(s.armazem)+'__'+slug(s.seccao);
+          const ex = (ler('inv.extras.' + k, []) || []).length;
+          const rasc = ler('inv.rascunho.' + k, null);
+          const n = s.itens.length + ex;
+          return `<button class="sec ${n ? '' : 'vazia'}" data-arm="${s.armazem}" data-sec="${s.seccao}">
+            <b>${s.seccao}</b>
+            <em>${n ? n + ' artigos' : 'lista por criar'}</em>
+            <span class="ult">${rasc ? 'contagem a meio' : (ultimas[k] ? 'última: ' + dataPT(ultimas[k].data) : '')}</span>
+          </button>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.sec').forEach(b => b.addEventListener('click', () => abre(b.dataset.arm, b.dataset.sec)));
+}
+const dataPT = d => String(d||'').split('-').reverse().join('/');
+
+function desenhaHistorico(){
+  const linhas = porEnviar.map(c => ({c, pendente:true})).concat(historico.slice(0,6).map(c => ({c, pendente:false})));
+  if(!linhas.length){ $('#blocoEnviadas').classList.add('oculto'); return; }
+  $('#blocoEnviadas').classList.remove('oculto');
+  $('#listaEnviadas').innerHTML = linhas.map(({c, pendente}) => `
+    <div class="env">
+      <div><b>${c.armazem} · ${c.seccao}</b><br><span>${c.contador || 'sem nome'}</span></div>
+      <div style="text-align:right"><span>${dataPT(c.data)}</span><br>
+        <span style="color:${pendente ? 'var(--falta)' : 'var(--ok)'}">${pendente ? 'por enviar' : c.contados + ' artigos'}</span></div>
+    </div>`).join('');
+}
+
+/* ---------- abrir secção ---------- */
+function abre(arm, sec){
+  secAtual = CATALOGO.find(s => s.armazem === arm && s.seccao === sec);
+  valores = {}; filtro = false; busca = '';
+  extras = ler('inv.extras.' + id(), []) || [];
+  const rasc = ler('inv.rascunho.' + id(), null);
+  if(rasc){
+    valores = rasc.valores || {};
+    if(rasc.data) $('#inData').value = rasc.data;
+  }
+  $('#busca').value = ''; $('#btFiltro').setAttribute('aria-pressed','false');
+  $('#titulo').innerHTML = `${arm}<small>${sec} · ${dataPT($('#inData').value)}</small>`;
+  $('#ecraInicio').classList.add('oculto');
+  $('#ecraContagem').classList.remove('oculto');
+  $('#rodape').classList.remove('oculto');
+  $('#btVoltar').classList.remove('oculto');
+  $('#prog').classList.remove('oculto');
+  window.scrollTo(0,0);
+  marca(rasc ? 'Contagem a meio' : 'Rascunho', rasc ? 'retomada de ' + dataPT(rasc.data) : 'grava-se sozinha enquanto conta');
+  desenhaLista();
+}
+const id = () => slug(secAtual.armazem) + '__' + slug(secAtual.seccao);
+const todosItens = () => secAtual.itens.concat(extras);
+
+function desenhaLista(){
+  const itens = todosItens();
+  const q = busca.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const visiveis = itens.filter(it => {
+    const v = valores[chave(it)];
+    if(filtro && v && String(v.q||'').trim() !== '') return false;
+    if(!q) return true;
+    return (it.produto + ' ' + it.categoria).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(q);
+  });
+  const cats = [];
+  visiveis.forEach(it => { if(!cats.includes(it.categoria)) cats.push(it.categoria); });
+  $('#listas').innerHTML = cats.length ? cats.map(cat => {
+    const doGrupo = visiveis.filter(it => it.categoria === cat);
+    const feitos = doGrupo.filter(it => (valores[chave(it)]||{}).q).length;
+    return `<section class="grupo"><h4>${cat}<i>${feitos}/${doGrupo.length}</i></h4>
+      <div class="lista">${doGrupo.map(linha).join('')}</div></section>`;
+  }).join('') : `<p class="vazio">${itens.length ? 'Nada encontrado.' : 'Esta lista ainda não tem artigos. Use o botão em baixo para os acrescentar à medida que conta.'}</p>`;
+  ligaEventos();
+  atualizaProgresso();
+}
+
+function linha(it){
+  const k = chave(it), v = valores[k] || {};
+  const feito = String(v.q||'').trim() !== '';
+  const total = soma(v.q);
+  return `<div class="linha ${feito ? 'feito' : ''}" data-k="${encodeURIComponent(k)}">
+    <div class="nome"><b>${it.produto}</b><span>${it.unidade || ''}</span>
+      ${v.obs ? `<span class="obs">${v.obs}</span>` : ''}</div>
+    <div><input class="qtd" inputmode="decimal" autocomplete="off" placeholder="—" value="${(v.q||'').replace(/"/g,'&quot;')}">
+      ${temParcelas(v.q) && !isNaN(total) && total !== null ? `<span class="soma">= ${total}</span>` : ''}</div>
+    <button class="nota ${v.obs ? 'tem' : ''}" aria-label="Observação">&#9998;</button>
+  </div>`;
+}
+
+function ligaEventos(){
+  document.querySelectorAll('.linha').forEach(l => {
+    const k = decodeURIComponent(l.dataset.k);
+    const inp = l.querySelector('.qtd');
+    inp.addEventListener('input', () => {
+      valores[k] = Object.assign({}, valores[k], {q: inp.value});
+      l.classList.toggle('feito', inp.value.trim() !== '');
+      const t = soma(inp.value);
+      let sp = l.querySelector('.soma');
+      if(temParcelas(inp.value) && !isNaN(t) && t !== null){
+        if(!sp){ sp = document.createElement('span'); sp.className = 'soma'; inp.parentNode.appendChild(sp); }
+        sp.textContent = '= ' + t;
+      } else if(sp) sp.remove();
+      const g = l.closest('.grupo');
+      if(g) g.querySelector('h4 i').textContent = g.querySelectorAll('.linha.feito').length + '/' + g.querySelectorAll('.linha').length;
+      atualizaProgresso(); agendaGravar();
+    });
+    l.querySelector('.nota').addEventListener('click', () => pedeNota(k));
+  });
+}
+
+function pedeNota(k){
+  const v = valores[k] || {};
+  abreFolha(`<h3>Observação</h3><p>${k.split('|')[1]}</p>
+    <input type="text" id="inNota" placeholder="ex.: 2 avariados, embalagem aberta" value="${(v.obs||'').replace(/"/g,'&quot;')}">
+    <div class="acoes"><button class="bt sec2" data-fecha>Cancelar</button><button class="bt" id="btNota">Guardar</button></div>`);
+  setTimeout(() => $('#inNota').focus(), 60);
+  $('#btNota').addEventListener('click', () => {
+    valores[k] = Object.assign({}, valores[k], {obs: $('#inNota').value.trim()});
+    fechaFolha(); desenhaLista(); agendaGravar();
+  });
+}
+
+function atualizaProgresso(){
+  const itens = todosItens();
+  const feitos = itens.filter(it => String((valores[chave(it)]||{}).q||'').trim() !== '').length;
+  $('#progNum').textContent = feitos + '/' + itens.length;
+  $('#barra').style.width = itens.length ? (feitos / itens.length * 100) + '%' : '0';
+  $('#btFechar').disabled = feitos === 0;
+}
+
+/* ---------- rascunho automático ---------- */
+function agendaGravar(){
+  clearTimeout(gravarTimer);
+  gravarTimer = setTimeout(grava, 700);
+}
+function grava(){
+  guardar('inv.rascunho.' + id(), {armazem: secAtual.armazem, seccao: secAtual.seccao,
+    data: $('#inData').value, contador: $('#inContador').value.trim(), valores: valores,
+    atualizadoEm: new Date().toISOString()});
+  marca('Contagem guardada', 'no telemóvel · ' + new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'}));
+}
+const marca = (t, s) => { $('#estadoTit').textContent = t; $('#estadoSub').textContent = s; };
+
+/* ---------- novo artigo ---------- */
+$('#btNovo').addEventListener('click', () => {
+  const cats = [];
+  todosItens().forEach(it => { if(!cats.includes(it.categoria)) cats.push(it.categoria); });
+  abreFolha(`<h3>Artigo novo</h3><p>Fica na lista desta secção e segue com a contagem para a folha do Drive.</p>
+    <label class="campo"><span>Produto</span><input type="text" id="nProd" placeholder="ex.: Vinagre de sidra"></label>
+    <div class="campos" style="margin-top:12px">
+      <label class="campo"><span>Unidade</span><input type="text" id="nUni" placeholder="un / kg / L"></label>
+      <label class="campo"><span>Categoria</span><input type="text" id="nCat" list="lstCats" placeholder="${cats[0] || 'Geral'}"></label>
+    </div>
+    <datalist id="lstCats">${cats.map(c => `<option value="${c}">`).join('')}</datalist>
+    <div class="acoes"><button class="bt sec2" data-fecha>Cancelar</button><button class="bt" id="btAdd">Acrescentar</button></div>`);
+  setTimeout(() => $('#nProd').focus(), 60);
+  $('#btAdd').addEventListener('click', () => {
+    const p = $('#nProd').value.trim(); if(!p) return;
+    const novo = {categoria: $('#nCat').value.trim() || cats[0] || 'Geral', produto: p,
+      unidade: $('#nUni').value.trim() || 'un', novo: true};
+    extras.push(novo);
+    guardar('inv.extras.' + id(), extras);
+    fechaFolha(); desenhaLista();
+    const alvo = document.querySelector(`[data-k="${encodeURIComponent(chave(novo))}"] .qtd`);
+    if(alvo){ alvo.scrollIntoView({block:'center'}); alvo.focus(); }
+  });
+});
+
+/* ---------- fechar contagem ---------- */
+$('#btFechar').addEventListener('click', () => {
+  const linhas = linhasContadas();
+  const porContar = todosItens().length - linhas.length;
+  abreFolha(`<h3>Fechar a contagem</h3>
+    <p>${secAtual.armazem} · ${secAtual.seccao} · ${dataPT($('#inData').value)}</p>
+    <div class="resumo">
+      <div><span>Artigos contados</span><b>${linhas.length}</b></div>
+      <div><span>Por contar</span><b>${porContar}</b></div>
+      <div><span>Com observação</span><b>${linhas.filter(l => l.observacoes).length}</b></div>
+      <div><span>Quem conta</span><b>${$('#inContador').value.trim() || '—'}</b></div>
+    </div>
+    ${porContar ? `<p style="margin-top:12px;color:var(--falta)">Os artigos por contar ficam em branco na folha, não como zero.</p>` : ''}
+    <div class="acoes"><button class="bt sec2" data-fecha>Voltar</button><button class="bt" id="btConfirma">Fechar e enviar</button></div>`);
+  $('#btConfirma').addEventListener('click', confirmaFecho);
+});
+
+function linhasContadas(){
+  return todosItens().map(it => {
+    const v = valores[chave(it)] || {};
+    if(String(v.q||'').trim() === '') return null;
+    const t = soma(v.q);
+    return {categoria: it.categoria, produto: it.produto, unidade: it.unidade || '',
+      parcelas: String(v.q).trim(), quantidade: (t === null || isNaN(t)) ? null : t,
+      observacoes: v.obs || '', artigoNovo: !!it.novo};
+  }).filter(Boolean);
+}
+
+async function confirmaFecho(){
+  const btn = $('#btConfirma'); btn.disabled = true; btn.textContent = 'A enviar…';
+  const linhas = linhasContadas();
+  const contagem = {id: $('#inData').value + '__' + id() + '__' + Date.now().toString(36),
+    armazem: secAtual.armazem, seccao: secAtual.seccao, data: $('#inData').value,
+    contador: $('#inContador').value.trim(), contados: linhas.length,
+    porContar: todosItens().length - linhas.length,
+    fechadaEm: new Date().toISOString(), linhas: linhas};
+  porEnviar.push(contagem); guardar('inv.fila', porEnviar);
+  try{ localStorage.removeItem('inv.rascunho.' + id()); }catch(e){}
+  const r = await enviaFila();
+  const entrou = !porEnviar.some(c => c.id === contagem.id);
+  if(entrou){
+    abreFolha(`<h3>Contagem na folha</h3>
+      <p>${linhas.length} artigos de ${secAtual.armazem} · ${secAtual.seccao} entraram na folha de inventário do Drive.</p>
+      <div class="acoes"><button class="bt" data-fecha id="btVolta">Voltar ao início</button></div>`);
+  } else {
+    abreFolha(`<h3>Contagem guardada, ainda por enviar</h3>
+      <p>Não deu para chegar ao Drive agora${r ? ' (' + r + ')' : ''}. A contagem ficou guardada no telemóvel e vai sozinha assim que houver rede — basta abrir a app outra vez. Também pode usar “Copiar”.</p>
+      <div class="acoes"><button class="bt" data-fecha id="btVolta">Voltar ao início</button></div>`);
+  }
+  const bv = $('#btVolta'); if(bv) bv.addEventListener('click', voltaInicio);
+}
+
+/* ---------- envio para o Apps Script ---------- */
+async function enviaFila(){
+  if(!porEnviar.length) return '';
+  if(!CONFIG.url || CONFIG.url.indexOf('__URL') === 0) return 'app ainda por ligar à folha';
+  let erro = '';
+  for(const c of porEnviar.slice()){
+    try{
+      const resp = await fetch(CONFIG.url, {method:'POST', redirect:'follow',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(Object.assign({codigo: CONFIG.codigo}, c))});
+      const r = await resp.json();
+      if(r && r.ok){
+        porEnviar = porEnviar.filter(x => x.id !== c.id);
+        historico.unshift({armazem:c.armazem, seccao:c.seccao, data:c.data, contador:c.contador, contados:c.contados});
+        historico = historico.slice(0,12);
+        guardar('inv.fila', porEnviar); guardar('inv.historico', historico);
+      } else { erro = (r && r.erro === 'codigo') ? 'código de acesso errado' : ((r && r.erro) || 'a folha recusou'); break; }
+    }catch(e){ erro = 'sem rede'; break; }
+  }
+  desenhaHistorico();
+  return erro;
+}
+
+/* ---------- copiar ---------- */
+$('#btCopiar').addEventListener('click', () => copia());
+function copia(){
+  const cab = ['Data','Armazém','Secção','Categoria','Produto','Unidade','Quantidade','Observações','Contado por'];
+  const linhas = linhasContadas().map(l => [$('#inData').value, secAtual.armazem, secAtual.seccao,
+    l.categoria, l.produto, l.unidade, l.quantidade === null ? l.parcelas : l.quantidade,
+    l.observacoes, $('#inContador').value.trim()].join('\t'));
+  const txt = [cab.join('\t')].concat(linhas).join('\n');
+  const fim = () => marca('Copiado', linhas.length + ' linhas prontas a colar');
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(fim, fim);
+  else {
+    const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta);
+    ta.select(); try{ document.execCommand('copy'); }catch(e){} ta.remove(); fim();
+  }
+}
+
+/* ---------- navegação ---------- */
+$('#btVoltar').addEventListener('click', voltaInicio);
+function voltaInicio(){
+  fechaFolha();
+  $('#ecraContagem').classList.add('oculto'); $('#rodape').classList.add('oculto');
+  $('#btVoltar').classList.add('oculto'); $('#prog').classList.add('oculto');
+  $('#ecraInicio').classList.remove('oculto');
+  $('#titulo').innerHTML = 'Inventário do Grupo<small>Adega do Leo · Cais 56 · Moscatel</small>';
+  $('#barra').style.width = '0';
+  window.scrollTo(0,0);
+  desenhaCasas(); desenhaHistorico();
+}
+$('#busca').addEventListener('input', e => { busca = e.target.value; desenhaLista(); });
+$('#btFiltro').addEventListener('click', () => {
+  filtro = !filtro; $('#btFiltro').setAttribute('aria-pressed', String(filtro)); desenhaLista();
+});
+function abreFolha(html){ $('#folha').innerHTML = html; $('#veu').classList.remove('oculto'); }
+function fechaFolha(){ $('#veu').classList.add('oculto'); }
+$('#veu').addEventListener('click', e => { if(e.target === $('#veu') || e.target.hasAttribute('data-fecha')) fechaFolha(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') fechaFolha(); });
+window.addEventListener('online', () => { if(porEnviar.length) enviaFila(); });
+
+/* aviso quando a app ainda não está ligada à folha do Drive */
+if(!CONFIG.url || CONFIG.url.indexOf('__URL') === 0){
+  const a = $('#avisoOffline');
+  a.textContent = 'Esta app ainda não está ligada à folha do Drive. Pode contar e usar “Copiar”, mas o envio automático só funciona depois de a ligação estar feita.';
+  a.classList.remove('oculto');
+}
+
+</script>
+</body>
+</html>
