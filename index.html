@@ -245,8 +245,8 @@ const CATALOGO = [{"armazem":"Adega do Leo","seccao":"Cozinha","itens":[{"catego
    através do Apps Script publicado em CONFIG.url
 ------------------------------------------------------------------ */
 const CONFIG = {
-  url: 'https://script.google.com/macros/s/AKfycbwTu3M0P3WrlEE2zOZiTZlmYoaRywuBJJjmE2Py8cO4vOk9lnZD2XrlW6ZBp0NsZ3Ud7A/exec',
-  codigo: '2530'                // código que o gerente escreve uma vez
+  // A palavra-passe não está aqui: quem a valida é o Apps Script, do lado do Drive.
+  url: 'https://script.google.com/macros/s/AKfycbwTu3M0P3WrlEE2zOZiTZlmYoaRywuBJJjmE2Py8cO4vOk9lnZD2XrlW6ZBp0NsZ3Ud7A/exec'
 };
 
 const $ = s => document.querySelector(s);
@@ -281,27 +281,46 @@ $('#inContador').value = ler('inv.contador', '');
 $('#inContador').addEventListener('input', e => guardar('inv.contador', e.target.value));
 
 /* ---------- entrada ---------- */
-const PASSE = 'Sabiocrescimento2026';
 function mostraApp(){
   $('#ecraEntrada').classList.add('oculto');
   $('#ecraInicio').classList.remove('oculto');
   desenhaCasas(); desenhaHistorico();
   if(porEnviar.length) enviaFila();
 }
-function tentaEntrar(){
-  if($('#inPass').value.trim() === PASSE){
-    guardar('inv.acesso', 'ok');
-    $('#erroPass').classList.add('oculto');
-    mostraApp();
-  } else {
+async function verificaPasse(p){
+  try{
+    const resp = await fetch(CONFIG.url, {method:'POST', redirect:'follow',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({acao:'entrar', codigo:p})});
+    const j = await resp.json();
+    return (j && j.ok) ? 'ok' : 'errada';
+  }catch(e){ return 'sem-rede'; }
+}
+async function tentaEntrar(){
+  const p = $('#inPass').value.trim();
+  if(!p) return;
+  const bt = $('#btEntrar');
+  bt.disabled = true; bt.textContent = 'A verificar…';
+  const r = await verificaPasse(p);
+  bt.disabled = false; bt.textContent = 'Entrar';
+  if(r === 'errada'){
+    $('#erroPass').textContent = 'Palavra-passe errada. Tente outra vez.';
     $('#erroPass').classList.remove('oculto');
-    $('#inPass').value = '';
-    $('#inPass').focus();
+    $('#inPass').value = ''; $('#inPass').focus();
+    return;
+  }
+  guardar('inv.passe', p);
+  $('#erroPass').classList.add('oculto');
+  mostraApp();
+  if(r === 'sem-rede'){
+    const a = $('#avisoOffline');
+    a.textContent = 'Sem rede para confirmar a palavra-passe agora. Pode contar — a contagem entra na folha quando a ligação voltar e a palavra-passe for aceite.';
+    a.classList.remove('oculto');
   }
 }
 $('#btEntrar').addEventListener('click', tentaEntrar);
 $('#inPass').addEventListener('keydown', e => { if(e.key === 'Enter') tentaEntrar(); });
-if(ler('inv.acesso','') === 'ok') mostraApp(); else setTimeout(() => $('#inPass').focus(), 150);
+if(ler('inv.passe','')) mostraApp(); else setTimeout(() => $('#inPass').focus(), 150);
 
 /* ---------- ecrã 1 ---------- */
 function desenhaCasas(){
@@ -540,14 +559,15 @@ async function enviaFila(){
     try{
       const resp = await fetch(CONFIG.url, {method:'POST', redirect:'follow',
         headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body: JSON.stringify(Object.assign({codigo: CONFIG.codigo}, c))});
+        body: JSON.stringify(Object.assign({codigo: ler('inv.passe','')}, c))});
       const r = await resp.json();
       if(r && r.ok){
         porEnviar = porEnviar.filter(x => x.id !== c.id);
         historico.unshift({armazem:c.armazem, seccao:c.seccao, data:c.data, contador:c.contador, contados:c.contados});
         historico = historico.slice(0,12);
         guardar('inv.fila', porEnviar); guardar('inv.historico', historico);
-      } else { erro = (r && r.erro === 'codigo') ? 'código de acesso errado' : ((r && r.erro) || 'a folha recusou'); break; }
+      } else if(r && r.erro === 'codigo'){ guardar('inv.passe',''); erro = 'a palavra-passe deixou de ser válida'; break; }
+      else { erro = (r && r.erro) || 'a folha recusou'; break; }
     }catch(e){ erro = 'sem rede'; break; }
   }
   desenhaHistorico();
