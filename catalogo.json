@@ -644,7 +644,293 @@
  {
   "armazem": "Cais 56",
   "seccao": "Cozinha",
-  "itens": []
+  "itens": [
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Toalhas mãos",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Lixívia",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Detergente manual loiça",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Toalhas mesa",
+    "unidade": "packs"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Sacos lixo 120 litros",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Sacos lixo 50 litros",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Take away",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Guardanapos",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Luvas M",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Chouriço",
+    "unidade": "packs"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Bacon",
+    "unidade": "peças"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Papel alumínio",
+    "unidade": "rolos"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Película aderente",
+    "unidade": "rolos"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Piri-piri mesa",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Bife peru",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Bife vazia",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Economato / Consumíveis",
+    "produto": "Bifana",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Arroz",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Feijão cru",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Feijão lata",
+    "unidade": "latas"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Açúcar amarelo",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Maionese saché",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Ketchup saché",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Orégãos",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Canela em pau",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Polpa de tomate",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Azeite mesa",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Vinagre mesa",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Colorau",
+    "unidade": "g"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Knorr",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Leite condensado",
+    "unidade": "latas"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Azeite ?? x 3 L",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Sal mesa",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Alface",
+    "unidade": "pés"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Tomate",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Cebola",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Azeitona",
+    "unidade": "baldes"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Óleo girassol (30 x 5 L)",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Leite UHT",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Ovos",
+    "unidade": "dz"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Pães",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Margarina",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Sal saché",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Bravo esfregão",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Ervilha",
+    "unidade": "latas"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Atum lata",
+    "unidade": "latas"
+   },
+   {
+    "categoria": "Mercearia / Frescos",
+    "produto": "Banha",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Esfregão bravo",
+    "unidade": "dz"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Água 6 L",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Vinagre",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Puré de batata",
+    "unidade": "kg"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Lavanda",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Picante (16 x 1,130 L)",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Detergente máquina",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Rolo cozinha",
+    "unidade": "un"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Mistolin",
+    "unidade": "L"
+   },
+   {
+    "categoria": "Limpeza",
+    "produto": "Papel higiénico",
+    "unidade": "un"
+   }
+  ]
  },
  {
   "armazem": "Cais 56",
