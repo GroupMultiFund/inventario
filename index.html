@@ -66,6 +66,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 .barra{height:3px;background:rgba(255,255,255,.18)}
 .barra i{display:block;height:100%;background:var(--moscatel-claro);width:0;transition:width .25s}
 
+
+/* ---------- entrada ---------- */
+.entrada{max-width:360px;margin:0 auto;padding:48px 0 24px;text-align:left}
+.entrada h2{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:-.02em;margin:0 0 6px}
+.entrada p{margin:0 0 22px;color:var(--tinta-2);font-size:14.5px}
+.entrada .bt{width:100%;margin-top:16px}
+.entrada .erro{color:var(--falta);font-size:13.5px;margin:10px 0 0}
+input[type=password]{width:100%;padding:11px 12px;border:1px solid var(--linha-forte);
+  border-radius:10px;background:var(--superficie);color:var(--tinta);font:inherit;font-size:16px}
+
 /* ---------- ecrã inicial ---------- */
 .intro{padding:26px 0 8px}
 .intro h2{font-family:var(--disp);font-weight:700;font-size:26px;line-height:1.15;
@@ -174,8 +184,20 @@ input::placeholder{color:var(--tinta-3)}
 </header>
 
 <main class="wrap">
+  <!-- ECRÃ 0 -->
+  <section id="ecraEntrada">
+    <div class="entrada">
+      <h2>Área dos gerentes</h2>
+      <p>Escreva a palavra-passe do grupo para abrir a contagem. O telemóvel guarda-a — só é pedida uma vez.</p>
+      <label class="campo"><span>Palavra-passe</span>
+        <input type="password" id="inPass" autocomplete="current-password" enterkeyhint="go"></label>
+      <p class="erro oculto" id="erroPass">Palavra-passe errada. Tente outra vez.</p>
+      <button class="bt" id="btEntrar">Entrar</button>
+    </div>
+  </section>
+
   <!-- ECRÃ 1 -->
-  <section id="ecraInicio">
+  <section id="ecraInicio" class="oculto">
     <div class="intro">
       <h2>Contagem de armazém</h2>
       <p>Escolha o armazém e a secção. A contagem grava-se sozinha enquanto conta e entra na folha de inventário do Drive quando a fechar.</p>
@@ -257,9 +279,29 @@ const temParcelas = t => String(t||'').includes('+');
 $('#inData').value = hoje();
 $('#inContador').value = ler('inv.contador', '');
 $('#inContador').addEventListener('input', e => guardar('inv.contador', e.target.value));
-desenhaCasas();
-desenhaHistorico();
-if(porEnviar.length) enviaFila();
+
+/* ---------- entrada ---------- */
+const PASSE = 'Sabiocrescimento2026';
+function mostraApp(){
+  $('#ecraEntrada').classList.add('oculto');
+  $('#ecraInicio').classList.remove('oculto');
+  desenhaCasas(); desenhaHistorico();
+  if(porEnviar.length) enviaFila();
+}
+function tentaEntrar(){
+  if($('#inPass').value.trim() === PASSE){
+    guardar('inv.acesso', 'ok');
+    $('#erroPass').classList.add('oculto');
+    mostraApp();
+  } else {
+    $('#erroPass').classList.remove('oculto');
+    $('#inPass').value = '';
+    $('#inPass').focus();
+  }
+}
+$('#btEntrar').addEventListener('click', tentaEntrar);
+$('#inPass').addEventListener('keydown', e => { if(e.key === 'Enter') tentaEntrar(); });
+if(ler('inv.acesso','') === 'ok') mostraApp(); else setTimeout(() => $('#inPass').focus(), 150);
 
 /* ---------- ecrã 1 ---------- */
 function desenhaCasas(){
